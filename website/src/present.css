@@ -1,0 +1,187 @@
+/* ---------- Presentation deck (/present) ---------- */
+
+.deck {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--bg);
+  --s: 1;
+}
+.deck.fs { scroll-snap-type: y mandatory; scrollbar-width: none; }
+.deck.fs::-webkit-scrollbar { display: none; }
+
+/* carbon weave + red speed streaks */
+.deck-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(115deg, transparent 0 62%, rgba(225, 6, 0, 0.1) 62% 63.2%, transparent 63.2% 65%, rgba(225, 6, 0, 0.06) 65% 65.6%, transparent 65.6%),
+    radial-gradient(1200px 700px at 85% -10%, rgba(225, 6, 0, 0.14), transparent 60%),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.015) 0 2px, transparent 2px 6px),
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.015) 0 2px, transparent 2px 6px),
+    var(--bg);
+}
+
+.deck .slide { position: relative; height: 100vh; scroll-snap-align: start; }
+.deck .stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1600px;
+  height: 900px;
+  padding: 80px 110px 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  transform: translate(-50%, -50%) scale(var(--s));
+  opacity: 0;
+  filter: blur(6px);
+  transition: opacity 0.9s var(--ease), filter 0.9s var(--ease);
+}
+.deck .slide.in .stage { opacity: 1; filter: none; }
+
+/* ---------- type ---------- */
+.deck .ptag {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: 15px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 22px;
+}
+.deck .ptag::before { content: ''; width: 34px; height: 5px; background: var(--red); transform: skewX(-30deg); }
+.deck h1 { font-size: 112px; line-height: 0.95; font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: -0.02em; margin: 0; }
+.deck h2 { font-size: 62px; line-height: 1.04; font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: -0.01em; margin: 0 0 30px; }
+.deck h3 { font-size: 24px; font-weight: 700; margin: 0 0 10px; }
+.deck em { font-style: italic; color: var(--red-2); }
+.deck p { font-size: 22px; line-height: 1.5; color: var(--muted); margin: 0 0 18px; }
+.deck p b, .deck li b { color: var(--text); font-weight: 700; }
+.deck code { font-family: var(--mono); font-size: 0.85em; color: var(--text); background: var(--panel-2); padding: 1px 7px; border-radius: 5px; }
+.deck .lead { font-size: 27px; max-width: 1250px; }
+.deck .hint { font-family: var(--mono); font-size: 14px; letter-spacing: 0.12em; color: var(--dim); margin-top: 40px; }
+
+/* title slide: chequered strip along the bottom */
+.deck .slide.title .stage::after {
+  content: '';
+  position: absolute;
+  left: 110px;
+  right: 110px;
+  bottom: 70px;
+  height: 28px;
+  background: repeating-conic-gradient(#fff 0 25%, #0d0d12 0 50%) 0 0 / 28px 28px;
+  opacity: 0.85;
+}
+.deck .slide.end .stage { align-items: center; text-align: center; }
+.deck .slide.end .ptag { align-self: center; }
+.deck .grid-crew { display: flex; gap: 60px; margin-top: 50px; }
+.deck .grid-crew div { border-left: 4px solid var(--red); padding-left: 16px; }
+.deck .grid-crew b { display: block; font-size: 26px; font-weight: 700; }
+.deck .grid-crew span { font-family: var(--mono); font-size: 15px; color: var(--muted); }
+
+/* questions list */
+.deck .pq { display: flex; align-items: baseline; gap: 28px; font-size: 46px; font-weight: 600; line-height: 1.15; margin-bottom: 20px; }
+.deck .pq span { font-family: var(--mono); font-size: 20px; color: var(--red); width: 44px; flex: none; }
+
+/* ---------- blocks ---------- */
+.deck .grid2, .deck .grid3, .deck .grid4 { display: grid; gap: 22px; margin-bottom: 26px; }
+.deck .grid2 { grid-template-columns: 1fr 1fr; }
+.deck .grid3 { grid-template-columns: repeat(3, 1fr); }
+.deck .grid4 { grid-template-columns: repeat(4, 1fr); }
+.deck .grid3.tight { gap: 14px; margin-bottom: 18px; }
+.deck .grid2 > .qa, .deck .grid3 > .qa { margin: 0; }
+.deck .cards { display: flex; flex-direction: column; gap: 20px; }
+
+.deck .pcard { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 24px 26px; }
+.deck .pcard.red { border-top: 4px solid var(--red); }
+.deck .pcard p { font-size: 19px; margin: 0; }
+
+.deck .pbig { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; }
+.deck .pbig b { display: block; font-size: 54px; font-weight: 900; font-style: italic; line-height: 1; font-variant-numeric: tabular-nums; }
+.deck .pbig span { display: block; margin-top: 8px; font-size: 17px; color: var(--muted); }
+.deck .grid3.tight .pbig b { font-size: 40px; }
+
+/* pit-board question */
+.deck .qa {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  background: linear-gradient(90deg, rgba(225, 6, 0, 0.12), rgba(225, 6, 0, 0.02));
+  border-left: 5px solid var(--red);
+  border-radius: 0 12px 12px 0;
+  padding: 16px 22px;
+  margin: 8px 0 14px;
+}
+.deck .qa-k { flex: none; font-family: var(--mono); font-size: 14px; font-weight: 600; letter-spacing: 0.12em; color: #fff; background: var(--red); padding: 4px 9px; border-radius: 4px; margin-top: 3px; }
+.deck .qa > div > b { display: block; font-size: 21px; margin-bottom: 4px; }
+.deck .qa p { font-size: 18px !important; margin: 0 !important; line-height: 1.45 !important; }
+
+/* text + figure */
+.deck .row { display: grid; grid-template-columns: 560px 1fr; gap: 56px; align-items: center; }
+.deck .row h2 { font-size: 54px; }
+.deck .row p { font-size: 20px; }
+.deck .pfig { margin: 0; background: #fff; border-radius: 14px; padding: 12px; box-shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.9), 0 0 0 1px var(--line); }
+.deck .pfig img { width: 100%; height: auto; max-height: 600px; object-fit: contain; border-radius: 6px; }
+.deck .pfig figcaption { font-family: var(--mono); font-size: 13px; color: #555; padding: 8px 4px 0; }
+.deck .shots { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.deck .shots .pfig { width: 1120px; padding: 8px; display: flex; flex-direction: column; }
+.deck .shots .pfig figcaption { padding: 6px 4px 0; }
+.deck .shots .pfig:first-child { width: 900px; }
+.deck .slide.shotslide h2 { font-size: 44px; margin-bottom: 18px; }
+.deck .slide.shotslide .ptag { margin-bottom: 12px; }
+
+.deck .ptable { width: 100%; border-collapse: collapse; margin: 6px 0 18px; }
+.deck .ptable th { font-family: var(--mono); font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 400; text-align: left; padding: 10px 14px; border-bottom: 2px solid var(--red); }
+.deck .ptable td { padding: 11px 14px; font-size: 20px; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.deck .ptable td.hot { color: var(--red-2); font-weight: 700; }
+
+.deck .plist { list-style: none; padding: 0; margin: 0 0 18px; }
+.deck .plist li { position: relative; padding: 7px 0 7px 26px; font-size: 20px; color: var(--muted); }
+.deck .plist li::before { content: ''; position: absolute; left: 0; top: 18px; width: 12px; height: 4px; background: var(--red); transform: skewX(-30deg); }
+.deck .plist.big li { font-size: 27px; padding: 10px 0 10px 32px; }
+.deck .plist.big li::before { top: 26px; }
+.deck .next { margin-top: 26px !important; color: var(--red); text-transform: uppercase; letter-spacing: 0.1em; font-size: 18px !important; font-family: var(--mono); }
+.deck .specs { font-size: 17px !important; color: var(--text) !important; margin: 4px 0 24px !important; }
+
+.deck .funnel { display: flex; flex-direction: column; gap: 12px; margin-bottom: 26px; }
+.deck .funnel div {
+  width: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 22px;
+  background: linear-gradient(90deg, var(--red), #8a0400);
+  border-radius: 0 10px 10px 0;
+  font-size: 20px;
+  white-space: nowrap;
+  transition: width 1.4s var(--ease) 0.3s;
+}
+.deck .slide.in .funnel div { width: var(--w); }
+.deck .funnel b { font-size: 26px; font-variant-numeric: tabular-nums; }
+
+.deck .links { display: flex; gap: 16px; }
+.deck .links a { font-family: var(--mono); font-size: 16px; padding: 10px 18px; border: 1px solid var(--red); border-radius: 8px; color: var(--text); }
+.deck .links a:hover { background: var(--red); }
+
+/* ---------- chrome ---------- */
+.deck-top { position: fixed; top: 16px; left: 20px; right: 20px; z-index: 5; display: flex; justify-content: space-between; pointer-events: none; }
+.deck-btn { pointer-events: auto; font-family: var(--mono); font-size: 13px; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--line-2); background: rgba(13, 13, 18, 0.8); color: var(--muted); cursor: pointer; }
+.deck-btn:hover { color: var(--text); border-color: var(--text); }
+.deck-btn.red { border-color: var(--red); color: var(--text); }
+
+.deck-hud { position: fixed; left: 32px; right: 32px; bottom: 18px; z-index: 5; display: flex; align-items: center; gap: 18px; pointer-events: none; }
+.deck-bar { flex: 1; height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.deck-bar i { display: block; height: 100%; background: var(--red); transition: width 0.15s linear; }
+.deck-hud .mono { font-size: 12px; letter-spacing: 0.15em; color: var(--muted); }
+.deck .mini-track { width: 110px; height: 70px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .stage, .funnel div { transition: none; }
+}
